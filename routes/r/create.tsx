@@ -136,8 +136,8 @@ export default function Create({ data }: PageProps<CreateProps>) {
 										class="mb-2 px-2 py-1"
 										required
 									/>
-									<input
-										name="name"
+									<textarea
+										name="description"
 										type="textarea"
 										placeholder="Sub Description (optional)"
 										class="mb-2 px-2 py-1"

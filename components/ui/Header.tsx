@@ -14,7 +14,7 @@ export default function Header({ user }: { user?: UserWithoutAuth }) {
 						color: white;
 					}
 
-					input {
+					input, textarea {
 						background-color: #444;
 						color: white;
 					}
