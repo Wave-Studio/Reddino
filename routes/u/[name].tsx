@@ -4,8 +4,13 @@ import {
 	AuthHandlerAnyoneCookieData,
 	findUserFromId,
 	findUserIdFromName,
+	User,
 } from "database";
 import Header from "@/components/ui/Header.tsx";
+
+interface UserPageProps extends AuthHandlerAnyoneCookieData {
+	searchedUser?: User;
+}
 
 export const handler: Handlers = {
 	...authHandler(undefined, undefined, async (_, ctx) => {
@@ -14,7 +19,7 @@ export const handler: Handlers = {
 		if (id == undefined) return { user: undefined };
 		const user = (await findUserFromId(id))!;
 		return {
-			user: {
+			searchedUser: {
 				...user,
 				password: undefined,
 				token: undefined,
@@ -27,36 +32,33 @@ export const handler: Handlers = {
 	},
 };
 
-export default function UserPage({ data }: PageProps<AuthHandlerAnyoneCookieData>) {
+export default function UserPage({ data }: PageProps<UserPageProps>) {
 	return (
 		<>
 			<div>
 				<Header user={data.user} />
 				<div>
-					{data.user != undefined
-						? (
-							<>
-								<p>
-									User: {data.user.nickname != undefined
-										? `${data.user.nickname} (${data.user.name})`
-										: data.user.name}
-								</p>
-								<p>
-									Joined: {new Intl.DateTimeFormat("en-US", {
-										dateStyle: "full",
-									})
-										.format(
-											data.user.joined,
-										)}
-								</p>
-								<p>Admin: {data.user.admin ? "Yes" : "No"}</p>
-							</>
-						)
-						: (
-							<>
-								<p>Unknown user</p>
-							</>
-						)}
+					{data.searchedUser != undefined ? (
+						<>
+							<p>
+								User:{" "}
+								{data.searchedUser.nickname != undefined
+									? `${data.searchedUser.nickname} (${data.searchedUser.name})`
+									: data.searchedUser.name}
+							</p>
+							<p>
+								Joined:{" "}
+								{new Intl.DateTimeFormat("en-US", {
+									dateStyle: "full",
+								}).format(data.searchedUser.joined)}
+							</p>
+							<p>Admin: {data.searchedUser.admin ? "Yes" : "No"}</p>
+						</>
+					) : (
+						<>
+							<p>Unknown user</p>
+						</>
+					)}
 				</div>
 			</div>
 		</>
