@@ -1,0 +1,21 @@
+{
+	"lock": false,
+	"tasks": {
+		"start": "deno run -A --unstable --watch=static/,routes/ dev.ts",
+		"fmt": "deno fmt",
+		"lint": "deno lint"
+	},
+	"importMap": "./import_map.json",
+	"compilerOptions": {
+		"jsx": "react-jsx",
+		"jsxImportSource": "preact"
+	},
+	"fmt": {
+		"indentWidth": 4,
+		"lineWidth": 80,
+		"semiColons": true,
+		"singleQuote": false,
+		"useTabs": true,
+		"proseWrap": "always"
+	}
+}
