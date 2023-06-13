@@ -2,6 +2,7 @@ import { Handlers, PageProps } from "https://deno.land/x/fresh@1.1.6/server.ts";
 import Header from "@/components/ui/Header.tsx";
 import {
 	AuthHandlerUserCookieData,
+	SiteSettings,
 	authHandler,
 	findUserIdFromName,
 	isUserLoggedIn,
@@ -11,9 +12,7 @@ import {
 import { getCookies } from "$std/http/cookie.ts";
 
 interface SettingsData extends AuthHandlerUserCookieData {
-	siteSettings?: {
-		freesubcreate: boolean;
-	};
+	siteSettings?: SiteSettings
 	error?: string;
 	saved?: boolean;
 }
@@ -23,7 +22,7 @@ export const handler: Handlers = {
 		if (user == undefined || !user.admin) return {};
 
 		const siteSettings = (
-			await kv.get<SettingsData["siteSettings"]>(["siteSettings"])
+			await kv.get<SiteSettings>(["siteSettings"])
 		).value ?? { freesubcreate: false };
 
 		return {
@@ -33,7 +32,7 @@ export const handler: Handlers = {
 	async POST(req, ctx) {
 		const user = await isUserLoggedIn(getCookies(req.headers));
 		const siteSettings = (
-			await kv.get<SettingsData["siteSettings"]>(["siteSettings"])
+			await kv.get<SiteSettings>(["siteSettings"])
 		).value ?? { freesubcreate: false };
 		const data = await req.formData();
 		const usernameValue = data.get("username");

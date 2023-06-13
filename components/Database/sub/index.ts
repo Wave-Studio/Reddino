@@ -4,12 +4,12 @@ import { User } from "../index.ts";
 export interface Sub {
 	name: string;
 	ownerId: string;
-	mods: string[];
+	modIds: string[];
 	created: number;
 	description?: string;
 }
 
-export async function createSub(name: string, user: User) {
+export async function createSub(name: string, description: string | undefined, user: User | string) {
 	if ((await kv.get(["sub", name.toLowerCase()])).value != undefined) {
 		return { created: false, reason: "Sub already exists" };
 	}
@@ -29,9 +29,10 @@ export async function createSub(name: string, user: User) {
 
 	const sub: Sub = {
 		name: name.toLowerCase(),
-		ownerId: user.id,
-		mods: [],
+		ownerId: typeof user == "string" ? user : user.id,
+		modIds: [],
 		created: Date.now(),
+		description
 	}
 
 	await kv.set(["sub", name.toLowerCase()], sub);
@@ -39,5 +40,5 @@ export async function createSub(name: string, user: User) {
 }
 
 export async function getSub(name: string) {
-	return await kv.get<Sub>(["sub", name.toLowerCase()]);
+	return (await kv.get<Sub>(["sub", name.toLowerCase()])).value;
 }

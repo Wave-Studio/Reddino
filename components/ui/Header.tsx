@@ -1,7 +1,7 @@
-import type { AuthHandlerAnyoneCookieData, User } from "database";
+import type { UserWithoutAuth } from "database";
 import { Head } from "$fresh/runtime.ts";
 
-export default function Header({ user }: { user?: AuthHandlerAnyoneCookieData["user"] }) {
+export default function Header({ user }: { user?: UserWithoutAuth }) {
 	return (
 		<>
 			<Head>

@@ -67,12 +67,14 @@ export default function Signup({ data }: PageProps<ErrorProps>) {
 						name="username"
 						placeholder="Username"
 						class="mb-2 px-2 py-1"
+						required
 					/>
 					<input
 						type="password"
 						name="password"
 						placeholder="Password"
 						class="mb-2 px-2 py-1"
+						required
 					/>
 					<div class="flex">
 						<button
