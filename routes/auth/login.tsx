@@ -34,6 +34,7 @@ export const handler: Handlers = {
 				name: "token",
 				value: loggedInUser.user.token,
 				path: "/",
+				expires: Date.now() + 30 * 24 * 60 * 1000
 			});
 			return resp;
 		}

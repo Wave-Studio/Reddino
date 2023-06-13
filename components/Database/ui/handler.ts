@@ -1,5 +1,5 @@
 import { HandlerContext, Handlers } from "$fresh/server.ts";
-import { getCookies } from "$std/http/cookie.ts";
+import { deleteCookie, getCookies, setCookie } from "$std/http/cookie.ts";
 import { isUserLoggedIn, User} from "../user/index.ts";
 
 export interface AuthHandlerAnyoneCookieData {
@@ -22,6 +22,7 @@ export const authHandler = (
 ): Handlers => ({
 	async GET(req, ctx) {
 		const cookies = getCookies(req.headers);
+
 		const possibleUser = await isUserLoggedIn(cookies);
 		if (possibleUser.loggedIn) {
 			const user = possibleUser.user;
@@ -42,7 +43,7 @@ export const authHandler = (
 
 			delete addedPropsUserOmmited.user;
 
-			return ctx.render({
+			const render = await ctx.render({
 				user: {
 					...user,
 					password: undefined,
@@ -50,6 +51,16 @@ export const authHandler = (
 				},
 				...(addedPropsUserOmmited),
 			});
+
+			// Renew cookie
+			setCookie(render.headers, {
+				name: "token",
+				value: user.token,
+				path: "/",
+				expires: Date.now() + 30 * 24 * 60 * 1000,
+			});
+
+			return render;
 		} else {
 			if (redirectIfNotAuthenticated != undefined) {
 				return new Response("Redirecting...", {
@@ -59,10 +70,16 @@ export const authHandler = (
 					status: 307,
 				});
 			}
-			return ctx.render({
+			const response = await ctx.render({
 				loggedIn: true,
 				...(addedProps != undefined ? await addedProps(req, ctx, undefined) : {}),
 			});
+
+			if (cookies.token != undefined) {
+				deleteCookie(response.headers, "token");
+			}
+
+			return response;
 		}
 	},
 });
