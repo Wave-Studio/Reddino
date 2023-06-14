@@ -26,7 +26,7 @@ export default function App({ Component }: AppProps) {
 				<meta property="og:image" content="favicon.ico" />
 				<meta
 					property="og:description"
-					content="A reddit-like website made for the Deno Kv 2023 Hackathon"
+					content="A reddit-like website made for the 2023 Deno Kv Hackathon"
 				/>
 				<meta name="theme-color" content="#1d7bd8" />
 			</Head>
