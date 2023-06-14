@@ -1,26 +1,8 @@
 import type { UserWithoutAuth } from "database";
-import { Head } from "$fresh/runtime.ts";
 
 export default function Header({ user }: { user?: UserWithoutAuth }) {
 	return (
 		<>
-			<Head>
-				<title>Reddino</title>
-				{/* So that it doesn't look garbage while developing */}
-				<style>
-					{`
-					body {
-						background-color: #333;
-						color: white;
-					}
-
-					input, textarea {
-						background-color: #444;
-						color: white;
-					}
-				`}
-				</style>
-			</Head>
 			<div class="flex justify-between p-2 bg-[#222]">
 				<a href="/">Reddino</a>
 				<div>

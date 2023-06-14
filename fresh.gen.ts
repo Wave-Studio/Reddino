@@ -5,29 +5,31 @@
 import config from "./deno.json" assert { type: "json" };
 import * as $0 from "./routes/_404.tsx";
 import * as $1 from "./routes/_500.tsx";
-import * as $2 from "./routes/auth/login.tsx";
-import * as $3 from "./routes/auth/logout.tsx";
-import * as $4 from "./routes/auth/signup.tsx";
-import * as $5 from "./routes/index.tsx";
-import * as $6 from "./routes/r/[name]/index.tsx";
-import * as $7 from "./routes/r/create.tsx";
-import * as $8 from "./routes/r/index.tsx";
-import * as $9 from "./routes/settings.tsx";
-import * as $10 from "./routes/u/[name].tsx";
+import * as $2 from "./routes/_app.tsx";
+import * as $3 from "./routes/auth/login.tsx";
+import * as $4 from "./routes/auth/logout.tsx";
+import * as $5 from "./routes/auth/signup.tsx";
+import * as $6 from "./routes/index.tsx";
+import * as $7 from "./routes/r/[name]/index.tsx";
+import * as $8 from "./routes/r/create.tsx";
+import * as $9 from "./routes/r/index.tsx";
+import * as $10 from "./routes/settings.tsx";
+import * as $11 from "./routes/u/[name].tsx";
 
 const manifest = {
 	routes: {
 		"./routes/_404.tsx": $0,
 		"./routes/_500.tsx": $1,
-		"./routes/auth/login.tsx": $2,
-		"./routes/auth/logout.tsx": $3,
-		"./routes/auth/signup.tsx": $4,
-		"./routes/index.tsx": $5,
-		"./routes/r/[name]/index.tsx": $6,
-		"./routes/r/create.tsx": $7,
-		"./routes/r/index.tsx": $8,
-		"./routes/settings.tsx": $9,
-		"./routes/u/[name].tsx": $10,
+		"./routes/_app.tsx": $2,
+		"./routes/auth/login.tsx": $3,
+		"./routes/auth/logout.tsx": $4,
+		"./routes/auth/signup.tsx": $5,
+		"./routes/index.tsx": $6,
+		"./routes/r/[name]/index.tsx": $7,
+		"./routes/r/create.tsx": $8,
+		"./routes/r/index.tsx": $9,
+		"./routes/settings.tsx": $10,
+		"./routes/u/[name].tsx": $11,
 	},
 	islands: {},
 	baseUrl: import.meta.url,
