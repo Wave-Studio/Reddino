@@ -4,19 +4,26 @@ import {
 	findUserFromId,
 	getSub,
 	Sub,
-	User,
+	Post,
 	UserWithoutAuth,
+	getPostsForSub,
 } from "database";
 import Header from "@/components/ui/Header.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
+import PostList from "@/components/ui/PostList.tsx";
 
 interface DataSub extends Sub {
 	owner: UserWithoutAuth;
 	mods: UserWithoutAuth[];
 }
 
+interface DataPost extends Post {
+	author: UserWithoutAuth;
+}
+
 interface SubHomepageProps extends AuthHandlerAnyoneCookieData {
 	sub?: DataSub;
+	posts: DataPost[];
 }
 
 export const handler: Handlers = {
@@ -25,7 +32,7 @@ export const handler: Handlers = {
 		const sub = await getSub(name);
 
 		if (sub == undefined) {
-			return { sub: undefined };
+			return { sub: undefined, posts: [] };
 		} else {
 			const owner = {
 				...(await findUserFromId(sub.ownerId))!,
@@ -45,12 +52,14 @@ export const handler: Handlers = {
 				}
 			}
 
+			const posts = await getPostsForSub(sub.name);
 			return {
 				sub: {
 					...sub,
 					owner,
 					mods,
 				},
+				posts,
 			};
 		}
 	}),
@@ -75,6 +84,13 @@ export default function SubHomepage({ data }: PageProps<SubHomepageProps>) {
 						<p>
 							Description: {data.sub.description ?? "No description provided"}
 						</p>
+						<div>
+							{
+								data.posts.map((p) => <>
+									<PostList post={p} />
+								</>)
+							}
+						</div>
 					</>
 				) : (
 					<>

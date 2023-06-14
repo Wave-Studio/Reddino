@@ -10,6 +10,7 @@ export const handler = authHandler(undefined, undefined, async (req, ctx) => {
 	const subs = []
 
 	for await (const sub of kv.list<Sub>({ prefix: ["sub"] })) {
+		if (sub.key.length > 2) continue;
 		subs.push(sub.value.name);
 	}
 

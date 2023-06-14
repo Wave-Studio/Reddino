@@ -10,11 +10,14 @@ import * as $3 from "./routes/auth/login.tsx";
 import * as $4 from "./routes/auth/logout.tsx";
 import * as $5 from "./routes/auth/signup.tsx";
 import * as $6 from "./routes/index.tsx";
-import * as $7 from "./routes/r/[name]/index.tsx";
-import * as $8 from "./routes/r/create.tsx";
-import * as $9 from "./routes/r/index.tsx";
-import * as $10 from "./routes/settings.tsx";
-import * as $11 from "./routes/u/[name].tsx";
+import * as $7 from "./routes/r/[name]/[post]/index.tsx";
+import * as $8 from "./routes/r/[name]/index.tsx";
+import * as $9 from "./routes/r/[name]/post.tsx";
+import * as $10 from "./routes/r/create.tsx";
+import * as $11 from "./routes/r/index.tsx";
+import * as $12 from "./routes/settings.tsx";
+import * as $13 from "./routes/u/[name]/index.tsx";
+import * as $14 from "./routes/u/index.tsx";
 
 const manifest = {
 	routes: {
@@ -25,11 +28,14 @@ const manifest = {
 		"./routes/auth/logout.tsx": $4,
 		"./routes/auth/signup.tsx": $5,
 		"./routes/index.tsx": $6,
-		"./routes/r/[name]/index.tsx": $7,
-		"./routes/r/create.tsx": $8,
-		"./routes/r/index.tsx": $9,
-		"./routes/settings.tsx": $10,
-		"./routes/u/[name].tsx": $11,
+		"./routes/r/[name]/[post]/index.tsx": $7,
+		"./routes/r/[name]/index.tsx": $8,
+		"./routes/r/[name]/post.tsx": $9,
+		"./routes/r/create.tsx": $10,
+		"./routes/r/index.tsx": $11,
+		"./routes/settings.tsx": $12,
+		"./routes/u/[name]/index.tsx": $13,
+		"./routes/u/index.tsx": $14,
 	},
 	islands: {},
 	baseUrl: import.meta.url,

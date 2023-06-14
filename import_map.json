@@ -11,6 +11,7 @@
 		"$std/": "https://deno.land/std@0.187.0/",
 		"@/": "./",
 		"database": "./components/Database/index.ts",
-		"database/": "./components/Database/"
+		"database/": "./components/Database/",
+		"utils": "./components/Utils/index.ts"
 	}
 }

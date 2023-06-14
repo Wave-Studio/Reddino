@@ -4,19 +4,22 @@ import {
 	AuthHandlerAnyoneCookieData,
 	findUserFromId,
 	findUserIdFromName,
+	PostWithUser,
 	User,
 } from "database";
 import Header from "@/components/ui/Header.tsx";
+import PostList from "@/components/ui/PostList.tsx";
 
 interface UserPageProps extends AuthHandlerAnyoneCookieData {
 	searchedUser?: User;
+	posts: PostWithUser[];
 }
 
 export const handler: Handlers = {
 	...authHandler(undefined, undefined, async (_, ctx) => {
 		const { name } = ctx.params;
 		const id = await findUserIdFromName(name);
-		if (id == undefined) return { user: undefined };
+		if (id == undefined) return { searchedUser: undefined, posts: [] };
 		const user = (await findUserFromId(id))!;
 		return {
 			searchedUser: {
@@ -24,6 +27,7 @@ export const handler: Handlers = {
 				password: undefined,
 				token: undefined,
 			},
+			posts: [],
 		};
 	}),
 	async POST(req, ctx) {
@@ -53,6 +57,13 @@ export default function UserPage({ data }: PageProps<UserPageProps>) {
 								}).format(data.searchedUser.joined)}
 							</p>
 							<p>Admin: {data.searchedUser.admin ? "Yes" : "No"}</p>
+							<div>
+								{data.posts.map((p) => (
+									<>
+										<PostList post={p} />
+									</>
+								))}
+							</div>
 						</>
 					) : (
 						<>
