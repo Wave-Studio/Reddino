@@ -14,7 +14,7 @@ interface HomeProps extends AuthHandlerAnyoneCookieData {
 
 export const handler: Handlers = {
 	...authHandler(undefined, undefined, async (req, ctx) => {
-		const posts = await getPosts();
+		const posts = (await getPosts()) ?? [];
 		return { posts };
 	}),
 	async POST(req, ctx) {
