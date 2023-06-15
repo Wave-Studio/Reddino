@@ -34,7 +34,7 @@ export default function Home({ data }: PageProps<HomeProps>) {
 					logged in.
 				</div>
 				<div>
-					{data.posts.map((p) => (
+					{(data.posts ?? []).map((p) => (
 						<>
 							<PostList post={p} />
 						</>
