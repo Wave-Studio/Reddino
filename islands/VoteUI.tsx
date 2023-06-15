@@ -1,5 +1,8 @@
 import { useState } from "preact/hooks";
 import { authHandler, VoteInfo } from "database";
+import ArrowBigUpFilled from "https://deno.land/x/tabler_icons_tsx@0.0.4/tsx/arrow-big-up-filled.tsx";
+import ArrowBigDownFilled from "https://deno.land/x/tabler_icons_tsx@0.0.4/tsx/arrow-big-down-filled.tsx"
+
 
 export default function VoteUI({
 	currentVotes,
@@ -57,19 +60,19 @@ export default function VoteUI({
 
 	return (
 		<>
-			<div class={"flex flex-row"}>
-				<button
-					class={`${userDownvoted ? "text-blue-500" : ""}`}
-					onClick={downvote}
-				>
-					-
-				</button>
-				<p>{votes}</p>
+			<div class={"flex flex-col font-medium"}>
 				<button
 					class={`${userUpvoted ? "text-blue-500" : ""}`}
 					onClick={upvote}
 				>
-					+
+					<ArrowBigUpFilled />
+				</button>
+				<p class="text-center">{votes}</p>
+				<button
+					class={`${userDownvoted ? "text-blue-500" : ""}`}
+					onClick={downvote}
+				>
+					<ArrowBigDownFilled />
 				</button>
 			</div>
 		</>

@@ -123,7 +123,7 @@ export const getPostsForSub = async (
 		posts.push({ ...post.value, author });
 	}
 
-	return posts.sort((a, b) => b.createdAt - a.createdAt).reverse();
+	return posts.sort((a, b) => b.createdAt - a.createdAt);
 };
 
 export const getPostsForUser = async (
@@ -153,7 +153,7 @@ export const getPostsForUser = async (
 		}
 	}
 
-	return posts.sort((a, b) => b.createdAt - a.createdAt).reverse();
+	return posts.sort((a, b) => b.createdAt - a.createdAt);
 };
 
 export const getPosts = async (): Promise<PostWithUser[]> => {
@@ -174,5 +174,5 @@ export const getPosts = async (): Promise<PostWithUser[]> => {
 		posts.push({ ...post, author });
 	}
 
-	return posts.sort((a, b) => b.createdAt - a.createdAt).reverse();
+	return posts.sort((a, b) => b.createdAt - a.createdAt);
 };

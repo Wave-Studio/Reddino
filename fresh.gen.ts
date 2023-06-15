@@ -3,42 +3,38 @@
 // This file is automatically updated during development when running `dev.ts`.
 
 import config from "./deno.json" assert { type: "json" };
-import * as $0 from "./routes/_404.tsx";
-import * as $1 from "./routes/_500.tsx";
-import * as $2 from "./routes/_app.tsx";
-import * as $3 from "./routes/api/vote.ts";
-import * as $4 from "./routes/auth/login.tsx";
-import * as $5 from "./routes/auth/logout.tsx";
-import * as $6 from "./routes/auth/signup.tsx";
-import * as $7 from "./routes/index.tsx";
-import * as $8 from "./routes/r/[name]/[post]/index.tsx";
-import * as $9 from "./routes/r/[name]/index.tsx";
-import * as $10 from "./routes/r/[name]/post.tsx";
-import * as $11 from "./routes/r/create.tsx";
-import * as $12 from "./routes/r/index.tsx";
-import * as $13 from "./routes/settings.tsx";
-import * as $14 from "./routes/u/[name]/index.tsx";
-import * as $15 from "./routes/u/index.tsx";
+import * as $0 from "./routes/_app.tsx";
+import * as $1 from "./routes/api/vote.ts";
+import * as $2 from "./routes/auth/login.tsx";
+import * as $3 from "./routes/auth/logout.tsx";
+import * as $4 from "./routes/auth/signup.tsx";
+import * as $5 from "./routes/index.tsx";
+import * as $6 from "./routes/r/[name]/[post]/index.tsx";
+import * as $7 from "./routes/r/[name]/index.tsx";
+import * as $8 from "./routes/r/[name]/post.tsx";
+import * as $9 from "./routes/r/create.tsx";
+import * as $10 from "./routes/r/index.tsx";
+import * as $11 from "./routes/settings.tsx";
+import * as $12 from "./routes/u/[name]/index.tsx";
+import * as $13 from "./routes/u/index.tsx";
 import * as $$0 from "./islands/VoteUI.tsx";
 
 const manifest = {
 	routes: {
-		"./routes/_404.tsx": $0,
-		"./routes/_500.tsx": $1,
-		"./routes/_app.tsx": $2,
-		"./routes/api/vote.ts": $3,
-		"./routes/auth/login.tsx": $4,
-		"./routes/auth/logout.tsx": $5,
-		"./routes/auth/signup.tsx": $6,
-		"./routes/index.tsx": $7,
-		"./routes/r/[name]/[post]/index.tsx": $8,
-		"./routes/r/[name]/index.tsx": $9,
-		"./routes/r/[name]/post.tsx": $10,
-		"./routes/r/create.tsx": $11,
-		"./routes/r/index.tsx": $12,
-		"./routes/settings.tsx": $13,
-		"./routes/u/[name]/index.tsx": $14,
-		"./routes/u/index.tsx": $15,
+		"./routes/_app.tsx": $0,
+		"./routes/api/vote.ts": $1,
+		"./routes/auth/login.tsx": $2,
+		"./routes/auth/logout.tsx": $3,
+		"./routes/auth/signup.tsx": $4,
+		"./routes/index.tsx": $5,
+		"./routes/r/[name]/[post]/index.tsx": $6,
+		"./routes/r/[name]/index.tsx": $7,
+		"./routes/r/[name]/post.tsx": $8,
+		"./routes/r/create.tsx": $9,
+		"./routes/r/index.tsx": $10,
+		"./routes/settings.tsx": $11,
+		"./routes/u/[name]/index.tsx": $12,
+		"./routes/u/index.tsx": $13,
 	},
 	islands: {
 		"./islands/VoteUI.tsx": $$0,

@@ -49,12 +49,10 @@ export default function Signup({ data }: PageProps<ErrorProps>) {
 	return (
 		<>
 			<Header user={data.user} />
-			<div class="flex flex-col items-center">
-				<h1>Signup</h1>
-				<h2 class="font-bold text-red-800">
-					If you forget your password you will not be able to recover
-					your account!
-				</h2>
+			<div class="flex flex-col items-center py-10">
+				<div className="rounded-xl bg-[#030712] flex flex-col p-6 max-w-sm w-full">
+				<h1 class="text-4xl font-bold">Signup</h1>
+				
 				{data.errorMessage != undefined
 					? (
 						<>
@@ -62,36 +60,36 @@ export default function Signup({ data }: PageProps<ErrorProps>) {
 						</>
 					)
 					: <></>}
-				<form method="post" class="flex flex-col w-[20%] items-center">
+				<form method="post" class="flex flex-col gap-2 mt-4">
+					<label htmlFor="username" class="flex flex-col">
+						<span class="text-sm text-gray-300 font-medium">Username</span> 
 					<input
 						type="text"
 						name="username"
-						placeholder="Username"
+						placeholder="spez"
 						class="mb-2 px-2 py-1"
 						required
-					/>
+					/></label>
+						<label htmlFor="password" class="flex flex-col">
+						<span class="text-sm text-gray-300 font-medium">Password</span> 
 					<input
 						type="password"
 						name="password"
-						placeholder="Password"
+						placeholder="$upersecurepassword123"
 						class="mb-2 px-2 py-1"
 						required
-					/>
+					/></label>
 					<div class="flex">
 						<button
 							type="submit"
-							class="bg-black px-4 py-2 w-[45%] mr-5 rounded-lg"
+							class="bg-yellow-700 font-medium px-4 py-2 mt-2 mx-auto rounded-lg"
 						>
 							Signup
 						</button>
-						<a
-							class="bg-black px-4 py-2 w-[45%] rounded-lg"
-							href="/auth/login"
-						>
-							Login
-						</a>
+						
 					</div>
-				</form>
+				</form></div>
+				<p class="text-sm mt-4 text-gray-400">Returning user? <a href="/auth/login" class="underline text-gray-300">Log in</a> instead</p>
 			</div>
 		</>
 	);
