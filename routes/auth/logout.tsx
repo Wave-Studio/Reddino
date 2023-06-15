@@ -1,13 +1,20 @@
-import { PageProps } from "$fresh/server.ts";
-import { authHandler } from "database";
-import Header from "@/components/ui/Header.tsx";
+import { Handlers } from "$fresh/server.ts";
+import { setCookie } from "$std/http/cookie.ts";
 
-export const handler = authHandler(undefined, "/auth/login");
-
-export default function Logout({ data }: PageProps) {
-	return (
-		<>
-			<Header user={data.user} />
-		</>
-	);
-}
+export const handler: Handlers = {
+	GET() {
+		const resp = new Response("Redirecting...", {
+			headers: {
+				Location: "/",
+			},
+			status: 307,
+		});
+		setCookie(resp.headers, {
+			name: "token",
+			value: "",
+			path: "/",
+			expires: Date.now() + 30 * 24 * 60 * 1000,
+		});
+		return resp;
+	},
+};
