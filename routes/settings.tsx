@@ -1,18 +1,18 @@
 import { Handlers, PageProps } from "https://deno.land/x/fresh@1.1.6/server.ts";
 import Header from "@/components/ui/Header.tsx";
 import {
-	AuthHandlerUserCookieData,
-	SiteSettings,
 	authHandler,
+	AuthHandlerUserCookieData,
 	findUserIdFromName,
 	isUserLoggedIn,
 	kv,
+	SiteSettings,
 	updateUserInfo,
 } from "database";
 import { getCookies } from "$std/http/cookie.ts";
 
 interface SettingsData extends AuthHandlerUserCookieData {
-	siteSettings?: SiteSettings
+	siteSettings?: SiteSettings;
 	error?: string;
 	saved?: boolean;
 }
@@ -39,58 +39,70 @@ export const handler: Handlers = {
 		const nicknameValue = data.get("nickname");
 		const nameRegex = /[a-zA-Z0-9_]{3,20}/;
 
-		if (!user.loggedIn)
-			return ctx.render({ ...user, error: "Not logged in", siteSettings });
+		if (!user.loggedIn) {
+			return ctx.render({
+				...user,
+				error: "Not logged in",
+				siteSettings,
+			});
+		}
 
-		if (usernameValue == undefined)
+		if (usernameValue == undefined) {
 			return ctx.render({
 				...user,
 				error: "Username is required",
 				siteSettings,
 			});
+		}
 		const username = usernameValue.toString();
 
-		if (username.length < 3)
+		if (username.length < 3) {
 			return ctx.render({
 				...user,
 				error: "Username must be at least 3 characters long",
 				siteSettings,
 			});
-		if (username.length > 20)
+		}
+		if (username.length > 20) {
 			return ctx.render({
 				...user,
 				error: "Username must be at most 20 characters long",
 				siteSettings,
 			});
-		if (!nameRegex.test(username))
+		}
+		if (!nameRegex.test(username)) {
 			return ctx.render({
 				...user,
 				error: "Username must be alphanumeric",
 				siteSettings,
 			});
+		}
 
 		if (nicknameValue != undefined) {
 			const nickname = nicknameValue.toString();
 
 			if (nickname != "") {
-				if (nickname.length < 3)
+				if (nickname.length < 3) {
 					return ctx.render({
 						...user,
 						error: "Nickname must be at least 3 characters long",
 						siteSettings,
 					});
-				if (nickname.length > 20)
+				}
+				if (nickname.length > 20) {
 					return ctx.render({
 						...user,
 						error: "Nickname must be at most 20 characters long",
 						siteSettings,
 					});
-				if (!nameRegex.test(nickname))
+				}
+				if (!nameRegex.test(nickname)) {
 					return ctx.render({
 						...user,
 						error: "Nickname must be alphanumeric",
 						siteSettings,
 					});
+				}
 			}
 		}
 
@@ -105,12 +117,11 @@ export const handler: Handlers = {
 
 		await updateUserInfo(user.user.id, {
 			name: username,
-			nickname:
-				nicknameValue != undefined
-					? nicknameValue.toString() != ""
-						? nicknameValue.toString()
-						: undefined
-					: undefined,
+			nickname: nicknameValue != undefined
+				? nicknameValue.toString() != ""
+					? nicknameValue.toString()
+					: undefined
+				: undefined,
 		});
 
 		// Can't think of any other settings admins would need
@@ -136,31 +147,31 @@ export default function SiteSettings({ data }: PageProps<SettingsData>) {
 	return (
 		<>
 			<Header user={data.user} />
-			{data.error ? (
-				<>
-					<p>{data.error}</p>
-				</>
-			) : (
-				<></>
-			)}
-			<form class="flex flex-col items-center" method="post">
-				{data.user.admin ? (
+			{data.error
+				? (
 					<>
-						<h1>Site settings</h1>
-						<div class="w-[20%]">
-							<label for="freesubcreate" class="pr-2">
-								Anyone can create subs:
-							</label>
-							<input
-								type="checkbox"
-								name="freesubcreate"
-								checked={data.siteSettings?.freesubcreate}
-							/>
-						</div>
+						<p>{data.error}</p>
 					</>
-				) : (
-					<></>
-				)}
+				)
+				: <></>}
+			<form class="flex flex-col items-center" method="post">
+				{data.user.admin
+					? (
+						<>
+							<h1>Site settings</h1>
+							<div class="w-[20%]">
+								<label for="freesubcreate" class="pr-2">
+									Anyone can create subs:
+								</label>
+								<input
+									type="checkbox"
+									name="freesubcreate"
+									checked={data.siteSettings?.freesubcreate}
+								/>
+							</div>
+						</>
+					)
+					: <></>}
 				<h1>User Settings</h1>
 				<div class="w-[20%]">
 					<input
@@ -180,7 +191,10 @@ export default function SiteSettings({ data }: PageProps<SettingsData>) {
 					/>
 				</div>
 
-				<button type="submit" class="bg-black px-4 py-2 rounded-lg mt-2">
+				<button
+					type="submit"
+					class="bg-black px-4 py-2 rounded-lg mt-2"
+				>
 					Save
 				</button>
 			</form>

@@ -1,6 +1,6 @@
 import { HandlerContext, Handlers } from "$fresh/server.ts";
 import { deleteCookie, getCookies, setCookie } from "$std/http/cookie.ts";
-import { isUserLoggedIn, User} from "../user/index.ts";
+import { isUserLoggedIn, User } from "../user/index.ts";
 
 export interface AuthHandlerAnyoneCookieData {
 	user?: Omit<Omit<User, "password">, "token">;
@@ -17,8 +17,8 @@ export const authHandler = (
 		req: Request,
 		// deno-lint-ignore no-explicit-any
 		ctx: HandlerContext<any, Record<string, unknown>>,
-		user?: User
-	) => Promise<Record<string, unknown>> | Record<string, unknown>
+		user?: User,
+	) => Promise<Record<string, unknown>> | Record<string, unknown>,
 ): Handlers => ({
 	async GET(req, ctx) {
 		const cookies = getCookies(req.headers);
@@ -35,11 +35,13 @@ export const authHandler = (
 				});
 			}
 
-			const addedPropsValue = (addedProps != undefined ? await addedProps(req, ctx, user) : {})
+			const addedPropsValue = addedProps != undefined
+				? await addedProps(req, ctx, user)
+				: {};
 
 			const addedPropsUserOmmited = {
 				...addedPropsValue,
-			}
+			};
 
 			delete addedPropsUserOmmited.user;
 
@@ -47,7 +49,9 @@ export const authHandler = (
 				user: {
 					...user,
 					password: undefined,
-					...(addedPropsValue.user != undefined ? addedPropsValue.user : {})
+					...(addedPropsValue.user != undefined
+						? addedPropsValue.user
+						: {}),
 				},
 				...(addedPropsUserOmmited),
 			});
@@ -72,7 +76,9 @@ export const authHandler = (
 			}
 			const response = await ctx.render({
 				loggedIn: true,
-				...(addedProps != undefined ? await addedProps(req, ctx, undefined) : {}),
+				...(addedProps != undefined
+					? await addedProps(req, ctx, undefined)
+					: {}),
 			});
 
 			if (cookies.token != undefined) {

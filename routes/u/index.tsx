@@ -1,4 +1,4 @@
-import { AuthHandlerAnyoneCookieData, authHandler } from "database";
+import { authHandler, AuthHandlerAnyoneCookieData } from "database";
 import { PageProps } from "$fresh/server.ts";
 import Header from "@/components/ui/Header.tsx";
 

@@ -9,7 +9,11 @@ export interface Sub {
 	description?: string;
 }
 
-export async function createSub(name: string, description: string | undefined, user: User | string) {
+export async function createSub(
+	name: string,
+	description: string | undefined,
+	user: User | string,
+) {
 	if ((await kv.get(["sub", name.toLowerCase()])).value != undefined) {
 		return { created: false, reason: "Sub already exists" };
 	}
@@ -32,8 +36,8 @@ export async function createSub(name: string, description: string | undefined, u
 		ownerId: typeof user == "string" ? user : user.id,
 		modIds: [],
 		created: Date.now(),
-		description
-	}
+		description,
+	};
 
 	await kv.set(["sub", name.toLowerCase()], sub);
 	return { created: true };

@@ -1,6 +1,6 @@
 const env = Deno.env.get("ENVIRONMENT");
 export const kv = await Deno.openKv(
-	env && env == "PRODUCTION" ? undefined : "./db/db.sqlite3"
+	env && env == "PRODUCTION" ? undefined : "./db/db.sqlite3",
 );
 
 const isNextUserAdmin = await kv.get(["isSiteConfigured"]);

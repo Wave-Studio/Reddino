@@ -1,14 +1,13 @@
 import { kv } from "../db.ts";
 import { User } from "./index.ts";
 import {
-	findUserIdFromToken,
-	findUserIdFromName,
 	findUserFromId,
+	findUserIdFromName,
+	findUserIdFromToken,
 } from "./user.ts";
 
 export const createUserToken = async (id: string): Promise<string> => {
-	const token =
-		btoa(id) +
+	const token = btoa(id) +
 		"_" +
 		Math.random().toString(36).substring(2, 15) +
 		Math.random().toString(36).substring(2, 15);
@@ -20,7 +19,7 @@ export const createUserToken = async (id: string): Promise<string> => {
 
 export const createUser = async (
 	name: string,
-	password: string
+	password: string,
 ): Promise<
 	{ created: false; error: string } | { created: true; user: User }
 > => {
@@ -78,7 +77,7 @@ export const createUser = async (
 };
 
 export const isUserLoggedIn = async (
-	cookies: Record<string, string>
+	cookies: Record<string, string>,
 ): Promise<{ loggedIn: false } | { loggedIn: true; user: User }> => {
 	const token = cookies.token;
 
@@ -95,7 +94,7 @@ export const isUserLoggedIn = async (
 
 export const loginUser = async (
 	username: string,
-	password: string
+	password: string,
 ): Promise<
 	{ loggedIn: false; error: string } | { loggedIn: true; user: User }
 > => {

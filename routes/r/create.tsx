@@ -1,13 +1,13 @@
 import {
-	SiteSettings,
 	authHandler,
-	kv,
 	AuthHandlerUserCookieData,
-	isUserLoggedIn,
-	getSub,
 	createSub,
+	getSub,
+	isUserLoggedIn,
+	kv,
+	SiteSettings,
 } from "database";
-import { PageProps, Handlers } from "$fresh/server.ts";
+import { Handlers, PageProps } from "$fresh/server.ts";
 import Header from "@/components/ui/Header.tsx";
 import { getCookies } from "$std/http/cookie.ts";
 import { Head } from "https://deno.land/x/fresh@1.1.6/runtime.ts";
@@ -101,7 +101,7 @@ export const handler: Handlers = {
 				: description.toString() == ""
 				? undefined
 				: description.toString().trim(),
-			userSession.user.id
+			userSession.user.id,
 		);
 
 		return await ctx.render({
@@ -116,50 +116,66 @@ export default function Create({ data }: PageProps<CreateProps>) {
 		<>
 			<Header user={data.user} />
 			<div class="flex items-center">
-				{data.redirect != undefined ? (
-					<>
-						<Head>
-							<meta http-equiv="refresh" content={`0; url=${data.redirect}`} />
-						</Head>
-						<p>Redirecting to <a href={data.redirect}>{data.redirect}</a></p>
-					</>
-				) : (
-					<>
-						{data.canCreateSub || data.user.admin ? (
-							<>
-								<form method="post" class="flex flex-col w-[20%] items-center">
-									{data.error != undefined ? <p>{data.error}</p> : <></>}
-									<input
-										name="name"
-										type="text"
-										placeholder="Sub Name"
-										class="mb-2 px-2 py-1"
-										required
-									/>
-									<textarea
-										name="description"
-										type="textarea"
-										placeholder="Sub Description (optional)"
-										class="mb-2 px-2 py-1"
-									/>
-									<button
-										type="submit"
-										class="bg-black px-4 py-2 w-[45%] rounded-lg"
-									>
-										Create
-									</button>
-								</form>
-							</>
-						) : (
-							<>
-								<p>
-									Sub creation is currently disabled! Please contact the site
-									administrator.
-								</p>
-							</>
-						)}
-					</>
-				)}
+				{data.redirect != undefined
+					? (
+						<>
+							<Head>
+								<meta
+									http-equiv="refresh"
+									content={`0; url=${data.redirect}`}
+								/>
+							</Head>
+							<p>
+								Redirecting to{" "}
+								<a href={data.redirect}>{data.redirect}</a>
+							</p>
+						</>
+					)
+					: (
+						<>
+							{data.canCreateSub || data.user.admin
+								? (
+									<>
+										<form
+											method="post"
+											class="flex flex-col w-[20%] items-center"
+										>
+											{data.error != undefined
+												? <p>{data.error}</p>
+												: <></>}
+											<input
+												name="name"
+												type="text"
+												placeholder="Sub Name"
+												class="mb-2 px-2 py-1"
+												required
+											/>
+											<textarea
+												name="description"
+												type="textarea"
+												placeholder="Sub Description (optional)"
+												class="mb-2 px-2 py-1"
+											/>
+											<button
+												type="submit"
+												class="bg-black px-4 py-2 w-[45%] rounded-lg"
+											>
+												Create
+											</button>
+										</form>
+									</>
+								)
+								: (
+									<>
+										<p>
+											Sub creation is currently disabled!
+											Please contact the site
+											administrator.
+										</p>
+									</>
+								)}
+						</>
+					)}
 			</div>
 		</>
 	);

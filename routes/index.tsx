@@ -29,7 +29,9 @@ export default function Home({ data }: PageProps<HomeProps>) {
 			<div>
 				<Header user={data.user} />
 				<div>
-					You currently {data.user != undefined ? "are" : "are not"} logged in.
+					You currently {data.user != undefined ? "are" : "are not"}
+					{" "}
+					logged in.
 				</div>
 				<div>
 					{data.posts.map((p) => (

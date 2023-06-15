@@ -17,7 +17,7 @@ export const handler: Handlers = {
 
 		const loggedInUser = await loginUser(
 			username.toString(),
-			password.toString()
+			password.toString(),
 		);
 		if (loggedInUser.loggedIn == false) {
 			return ctx.render({
@@ -34,7 +34,7 @@ export const handler: Handlers = {
 				name: "token",
 				value: loggedInUser.user.token,
 				path: "/",
-				expires: Date.now() + 30 * 24 * 60 * 1000
+				expires: Date.now() + 30 * 24 * 60 * 1000,
 			});
 			return resp;
 		}
@@ -47,13 +47,13 @@ export default function Login({ data }: PageProps) {
 			<Header user={data.user} />
 			<div class="flex flex-col items-center">
 				<h1>Login</h1>
-				{data.errorMessage != undefined ? (
-					<>
-						<p>{data.errorMessage}</p>
-					</>
-				) : (
-					<></>
-				)}
+				{data.errorMessage != undefined
+					? (
+						<>
+							<p>{data.errorMessage}</p>
+						</>
+					)
+					: <></>}
 				<form method="post" class="flex flex-col w-[20%] items-center">
 					<input
 						type="text"

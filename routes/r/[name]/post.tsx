@@ -1,9 +1,9 @@
 import {
 	authHandler,
 	AuthHandlerUserCookieData,
+	createPost,
 	getSub,
 	isUserLoggedIn,
-	createPost
 } from "database";
 import Header from "@/components/ui/Header.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
@@ -114,58 +114,68 @@ export default function SubHomepage({ data }: PageProps<SubPostProps>) {
 	return (
 		<>
 			<Header user={data.user} />
-			{data.postID != undefined ? (
-				<>
-					<Head>
-						<meta
-							http-equiv="refresh"
-							content={`0; url=/r/${data.sub!}/${data.postID}`}
-						/>
-					</Head>
-					<p>
-						Redirecting to{" "}
-						<a href={`/r/${data.sub!}/${data.postID}`}>
-							/r/{data.sub!}/{data.postID}
-						</a>
-					</p>
-				</>
-			) : (
-				<>
-					<div>
-						{data.sub != undefined ? (
-							<>
-								<form method="post" class="flex flex-col w-[20%] items-center">
-									{data.error != undefined ? <p>{data.error}</p> : <></>}
-									<input
-										name="title"
-										type="text"
-										placeholder="Title"
-										class="mb-2 px-2 py-1"
-										required
-									/>
-									<textarea
-										name="content"
-										type="textarea"
-										placeholder="Content"
-										class="mb-2 px-2 py-1"
-										required
-									/>
-									<button
-										type="submit"
-										class="bg-black px-4 py-2 w-[45%] rounded-lg"
-									>
-										Post
-									</button>
-								</form>
-							</>
-						) : (
-							<>
-								<p>Unknown sub</p>
-							</>
-						)}
-					</div>
-				</>
-			)}
+			{data.postID != undefined
+				? (
+					<>
+						<Head>
+							<meta
+								http-equiv="refresh"
+								content={`0; url=/r/${data
+									.sub!}/${data.postID}`}
+							/>
+						</Head>
+						<p>
+							Redirecting to{" "}
+							<a href={`/r/${data.sub!}/${data.postID}`}>
+								/r/{data.sub!}/{data.postID}
+							</a>
+						</p>
+					</>
+				)
+				: (
+					<>
+						<div>
+							{data.sub != undefined
+								? (
+									<>
+										<form
+											method="post"
+											class="flex flex-col w-[20%] items-center"
+										>
+											{data.error != undefined
+												? <p>{data.error}</p>
+												: <></>}
+											<input
+												name="title"
+												type="text"
+												placeholder="Title"
+												class="mb-2 px-2 py-1"
+												required
+											/>
+											<textarea
+												name="content"
+												type="textarea"
+												placeholder="Content"
+												class="mb-2 px-2 py-1"
+												required
+											/>
+											<button
+												type="submit"
+												class="bg-black px-4 py-2 w-[45%] rounded-lg"
+											>
+												Post
+											</button>
+										</form>
+									</>
+								)
+								: (
+									<>
+										<p>Unknown sub</p>
+									</>
+								)}
+						</div>
+					</>
+				)}
 		</>
 	);
 }

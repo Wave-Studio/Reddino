@@ -1,5 +1,5 @@
 import { PageProps } from "$fresh/server.ts";
-import { Sub, authHandler, kv } from "database";
+import { authHandler, kv, Sub } from "database";
 import Header from "@/components/ui/Header.tsx";
 
 interface SubHomeProps {
@@ -7,7 +7,7 @@ interface SubHomeProps {
 }
 
 export const handler = authHandler(undefined, undefined, async (req, ctx) => {
-	const subs = []
+	const subs = [];
 
 	for await (const sub of kv.list<Sub>({ prefix: ["sub"] })) {
 		if (sub.key.length > 2) continue;

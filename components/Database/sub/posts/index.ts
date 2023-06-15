@@ -1,4 +1,4 @@
-import { kv, getSub, Sub, UserWithoutAuth, findUserFromId } from "database";
+import { findUserFromId, getSub, kv, Sub, UserWithoutAuth } from "database";
 
 export interface Post {
 	id: string;
@@ -7,6 +7,7 @@ export interface Post {
 	authorId: string;
 	subName: string;
 	createdAt: number;
+	votes: number;
 }
 
 export interface PostWithUser extends Post {
@@ -15,7 +16,7 @@ export interface PostWithUser extends Post {
 
 export const createPostId = async (
 	subName: string,
-	sub?: Sub
+	sub?: Sub,
 ): Promise<
 	{ created: true; id: string } | { created: false; reason: string }
 > => {
@@ -34,7 +35,7 @@ export const createPostId = async (
 };
 
 export const createPost = async (
-	post: Omit<Omit<Post, "id">, "createdAt">
+	post: Omit<Omit<Omit<Post, "id">, "createdAt">, "votes">,
 ): Promise<
 	{ created: false; reason: string } | { created: true; id: string }
 > => {
@@ -48,17 +49,21 @@ export const createPost = async (
 			...post,
 			id: postId.id,
 			createdAt: Date.now(),
+			votes: 0,
 		};
 		await kv
 			.atomic()
 			.set(
 				["sub", post.subName.toLowerCase().trim(), "post", postId.id],
-				postObject
+				postObject,
 			)
 			.set(
 				["users", "posts", post.authorId],
 				[
-					{ id: postId.id, subName: post.subName.toLowerCase().trim() },
+					{
+						id: postId.id,
+						subName: post.subName.toLowerCase().trim(),
+					},
 					...((
 						await kv.get<{ id: string; subName: string }[]>([
 							"user",
@@ -66,16 +71,21 @@ export const createPost = async (
 							post.authorId,
 						])
 					).value ?? []),
-				]
+				],
 			)
 			.set(
 				["posts"],
 				[
-					{ id: postId.id, subName: post.subName.toLowerCase().trim() },
+					{
+						id: postId.id,
+						subName: post.subName.toLowerCase().trim(),
+					},
 					...((
-						await kv.get<{ id: string; subName: string }[]>(["posts"])
+						await kv.get<{ id: string; subName: string }[]>([
+							"posts",
+						])
 					).value ?? []),
-				]
+				],
 			)
 			.commit();
 		return { created: true, id: postId.id };
@@ -96,13 +106,15 @@ export const getPost = async (subName: string, id: string) => {
 };
 
 export const getPostsForSub = async (
-	subName: string
+	subName: string,
 ): Promise<PostWithUser[]> => {
 	const posts: PostWithUser[] = [];
 
-	for await (const post of kv.list<Post>({
-		prefix: ["sub", subName.toLowerCase().trim(), "post"],
-	})) {
+	for await (
+		const post of kv.list<Post>({
+			prefix: ["sub", subName.toLowerCase().trim(), "post"],
+		})
+	) {
 		const author = {
 			...(await findUserFromId(post.value.authorId))!,
 			password: undefined,
@@ -115,7 +127,7 @@ export const getPostsForSub = async (
 };
 
 export const getPostsForUser = async (
-	userId: string
+	userId: string,
 ): Promise<PostWithUser[]> => {
 	const posts: PostWithUser[] = [];
 	const user = await findUserFromId(userId);
@@ -147,9 +159,12 @@ export const getPostsForUser = async (
 export const getPosts = async (): Promise<PostWithUser[]> => {
 	const posts: PostWithUser[] = [];
 
-	for (const postData of (
-		(await kv.get<{ id: string; subName: string }[]>(["posts"])).value ?? []
-	).slice(0, 100)) {
+	for (
+		const postData of (
+			(await kv.get<{ id: string; subName: string }[]>(["posts"]))
+				.value ?? []
+		).slice(0, 100)
+	) {
 		const post = (await getPost(postData.subName, postData.id))!;
 		const author = {
 			...(await findUserFromId(post.authorId))!,

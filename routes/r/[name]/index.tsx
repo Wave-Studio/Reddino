@@ -2,11 +2,11 @@ import {
 	authHandler,
 	AuthHandlerAnyoneCookieData,
 	findUserFromId,
-	getSub,
-	Sub,
-	Post,
-	UserWithoutAuth,
 	getPostsForSub,
+	getSub,
+	Post,
+	Sub,
+	UserWithoutAuth,
 } from "database";
 import Header from "@/components/ui/Header.tsx";
 import { Handlers, PageProps } from "$fresh/server.ts";
@@ -70,33 +70,40 @@ export default function SubHomepage({ data }: PageProps<SubHomepageProps>) {
 		<>
 			<Header user={data.user} />
 			<div>
-				{data.sub != undefined ? (
-					<>
-						<p>Sub: {data.sub.name}</p>
-						<p>Owner: {data.sub.owner.name}</p>
-						<p>Moderators: {data.sub.mods.map((mod) => mod.name).join(", ")}</p>
-						<p>
-							Created:{" "}
-							{new Intl.DateTimeFormat("en-US", {
-								dateStyle: "full",
-							}).format(data.sub.created)}
-						</p>
-						<p>
-							Description: {data.sub.description ?? "No description provided"}
-						</p>
-						<div>
-							{
-								data.posts.map((p) => <>
-									<PostList post={p} />
-								</>)
-							}
-						</div>
-					</>
-				) : (
-					<>
-						<p>Unknown sub</p>
-					</>
-				)}
+				{data.sub != undefined
+					? (
+						<>
+							<p>Sub: {data.sub.name}</p>
+							<p>Owner: {data.sub.owner.name}</p>
+							<p>
+								Moderators:{" "}
+								{data.sub.mods.map((mod) => mod.name).join(
+									", ",
+								)}
+							</p>
+							<p>
+								Created: {new Intl.DateTimeFormat("en-US", {
+									dateStyle: "full",
+								}).format(data.sub.created)}
+							</p>
+							<p>
+								Description: {data.sub.description ??
+									"No description provided"}
+							</p>
+							<div>
+								{data.posts.map((p) => (
+									<>
+										<PostList post={p} />
+									</>
+								))}
+							</div>
+						</>
+					)
+					: (
+						<>
+							<p>Unknown sub</p>
+						</>
+					)}
 			</div>
 		</>
 	);

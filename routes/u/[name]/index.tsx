@@ -42,34 +42,38 @@ export default function UserPage({ data }: PageProps<UserPageProps>) {
 			<div>
 				<Header user={data.user} />
 				<div>
-					{data.searchedUser != undefined ? (
-						<>
-							<p>
-								User:{" "}
-								{data.searchedUser.nickname != undefined
-									? `${data.searchedUser.nickname} (${data.searchedUser.name})`
-									: data.searchedUser.name}
-							</p>
-							<p>
-								Joined:{" "}
-								{new Intl.DateTimeFormat("en-US", {
-									dateStyle: "full",
-								}).format(data.searchedUser.joined)}
-							</p>
-							<p>Admin: {data.searchedUser.admin ? "Yes" : "No"}</p>
-							<div>
-								{data.posts.map((p) => (
-									<>
-										<PostList post={p} />
-									</>
-								))}
-							</div>
-						</>
-					) : (
-						<>
-							<p>Unknown user</p>
-						</>
-					)}
+					{data.searchedUser != undefined
+						? (
+							<>
+								<p>
+									User:{" "}
+									{data.searchedUser.nickname != undefined
+										? `${data.searchedUser.nickname} (${data.searchedUser.name})`
+										: data.searchedUser.name}
+								</p>
+								<p>
+									Joined: {new Intl.DateTimeFormat("en-US", {
+										dateStyle: "full",
+									}).format(data.searchedUser.joined)}
+								</p>
+								<p>
+									Admin:{" "}
+									{data.searchedUser.admin ? "Yes" : "No"}
+								</p>
+								<div>
+									{data.posts.map((p) => (
+										<>
+											<PostList post={p} />
+										</>
+									))}
+								</div>
+							</>
+						)
+						: (
+							<>
+								<p>Unknown user</p>
+							</>
+						)}
 				</div>
 			</div>
 		</>

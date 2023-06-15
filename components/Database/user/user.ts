@@ -18,4 +18,4 @@ export const updateUserInfo = async (id: string, data: Partial<User>) => {
 	if (!user) return false;
 	await kv.set(["users", "id", id], { ...user, ...data });
 	return true;
-}
+};
