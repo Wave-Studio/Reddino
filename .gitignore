@@ -7,3 +7,5 @@
 
 # Database
 /db/db.sqlite3*
+# Fresh build directory
+_fresh/
